@@ -1,5 +1,5 @@
 import { FaRegCircle, FaTimes, FaPencilAlt } from "react-icons/fa";
-
+import { memo } from "react";
 const Icons = ({ name }) => {
   if (name == "circle") {
     return <FaRegCircle />;
@@ -10,4 +10,4 @@ const Icons = ({ name }) => {
   }
 };
 
-export default Icons;
+export default memo(Icons);

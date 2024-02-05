@@ -1,4 +1,5 @@
 import Icons from "./Icons";
+import { memo } from "react";
 const Card = ({ onPlay, player, index, gameEnd }) => {
   let icon = <Icons />;
   if (player == "X") {
@@ -16,4 +17,4 @@ const Card = ({ onPlay, player, index, gameEnd }) => {
   );
 };
 
-export default Card;
+export default memo(Card);

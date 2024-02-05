@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import Card from "./Card";
-import { ToastContainer, toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 function isWinner(board, symbol) {
@@ -29,20 +29,23 @@ const Grid = ({ cardnumber }) => {
   const [turn, setTurn] = useState(true);
   const [board, setBoard] = useState(Array(cardnumber).fill(""));
   const [winner, setWinner] = useState("");
-  function play(index) {
-    if (turn == true) {
-      board[index] = "O";
-    } else {
-      board[index] = "X";
-    }
-    const win = isWinner(board, turn ? "O" : "X");
-    if (win) {
-      setWinner(win);
-      toast.success(`Congratulation ${win} the game.`);
-    }
-    setBoard([...board]);
-    setTurn(!turn);
-  }
+  const play = useCallback(
+    function playCallback(index) {
+      if (turn == true) {
+        board[index] = "O";
+      } else {
+        board[index] = "X";
+      }
+      const win = isWinner(board, turn ? "O" : "X");
+      if (win) {
+        setWinner(win);
+        toast.success(`Congratulation ${win} the game.`);
+      }
+      setBoard([...board]);
+      setTurn(!turn);
+    },
+    [turn]
+  );
   function reset() {
     setBoard(Array(cardnumber).fill(""));
     setWinner(null);
@@ -56,7 +59,8 @@ const Grid = ({ cardnumber }) => {
           <button className="reset" onClick={reset}>
             Reset Game
           </button>
-          <ToastContainer position="top-center" />
+
+          <ToastContainer position="top-left" />
         </>
       )}
       <h1>Current turn :{turn ? "O" : "X"}</h1>
